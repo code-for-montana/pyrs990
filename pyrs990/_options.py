@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import dataclasses as dc
 import json
+import logging
 from argparse import ArgumentParser, Namespace
 from datetime import datetime
-from logging import getLogger
 from typing import Any, Dict, Iterable, List, Mapping, NamedTuple
 
 from .cache import Cache, DirectoryCache, MemoryCache
@@ -23,7 +23,16 @@ from .formatter import (
 )
 from .index import IndexRecord
 
-_logger = getLogger(__name__)
+_log_levels = {
+    "none": -100,
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warn": logging.WARN,
+    "error": logging.ERROR,
+    "fatal": logging.FATAL,
+}
+
+_logger = logging.getLogger(__name__)
 
 
 parser = ArgumentParser(
@@ -55,7 +64,7 @@ parser.add_argument(
     action="store_true",
     default=False,
     help="report how many documents would be "
-         + "downloaded / process and nothing else",
+    + "downloaded / process and nothing else",
 )
 
 parser.add_argument(
@@ -66,10 +75,11 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--verbose-logging",
-    action="store_true",
-    default=False,
-    help="provide much more verbose logging output, useful for debugging",
+    "--log-level",
+    type=str,
+    choices=_log_levels.keys(),
+    default="none",
+    help="set the log level, no logging is done by default",
 )
 
 parser.add_argument(
@@ -111,7 +121,7 @@ parser.add_argument(
     type=str,
     default=":current:",
     help="years to search, comma-separated "
-         + "(':current:' is the most recent completed year)",
+    + "(':current:' is the most recent completed year)",
 )
 
 # -------------------- #
@@ -220,12 +230,13 @@ class Options(NamedTuple):
             formatter=formatter,
             filing_cache=filing_cache,
             index_cache=index_cache,
+            log_level=_log_levels[args.log_level],
+            log_level_human=args.log_level,
             no_confirm=args.no_confirm,
             filing_filters=filing_filters,
             index_filters=index_filters,
             to_json=args.to_json,
             years=years,
-            verbose_logging=args.verbose_logging,
         )
 
     dry_run: bool
@@ -236,6 +247,10 @@ class Options(NamedTuple):
 
     index_cache: Cache
 
+    log_level: int
+
+    log_level_human: str
+
     no_confirm: bool
 
     years: Iterable[str]
@@ -245,5 +260,3 @@ class Options(NamedTuple):
     index_filters: Mapping[str, str] = {}
 
     to_json: bool = False
-
-    verbose_logging: bool = False

@@ -3,8 +3,17 @@ from __future__ import annotations
 import csv
 import json
 import sys
-from typing import Callable, Dict, Iterable, Optional, TextIO, Type, List, \
-    Protocol, Any
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Iterable,
+    List,
+    Optional,
+    Protocol,
+    TextIO,
+    Type,
+)
 
 from .filing import Filing
 
@@ -217,6 +226,7 @@ class CSVWriterProtocol(Protocol):
     """
     A helper to let us type annotate the CSVFormatter.
     """
+
     def writerow(self, row: Iterable[Any]) -> None:
         ...
 
