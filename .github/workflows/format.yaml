@@ -1,0 +1,12 @@
+name: format check
+on: [push]
+
+jobs:
+  format:
+    name: make format-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: install dependencies
+        run: pipenv3 sync --dev
+      - name: run formatting check
+        run: make format-check

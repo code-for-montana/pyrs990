@@ -1,0 +1,12 @@
+name: check
+on: [push]
+
+jobs:
+  check:
+    name: make check
+    runs-on: ubuntu-latest
+    steps:
+      - name: install dependencies
+        run: pipenv3 sync --dev
+      - name: run unit and functional tests
+        run: make check

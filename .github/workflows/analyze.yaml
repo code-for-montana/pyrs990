@@ -1,0 +1,12 @@
+name: analyze
+on: [push]
+
+jobs:
+  analyze:
+    name: make analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: install dependencies
+        run: pipenv3 sync --dev
+      - name: run static type analysis
+        run: make analyze
