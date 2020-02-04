@@ -6,6 +6,7 @@ jobs:
     name: make analyze
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: install dependencies
         run: pipenv3 sync --dev
       - name: run static type analysis
