@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
-        run: pipenv3 sync --dev
+        run: pip3 install pipenv && pipenv sync --dev
       - name: run unit and functional tests
         run: make check
