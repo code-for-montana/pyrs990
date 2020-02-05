@@ -174,7 +174,7 @@ class Options(NamedTuple):
                 value = getattr(args, index_field_name)
                 if value is not None:
                     index_filters[index_field_name] = value
-        _logger.info(f"extracted index filters: {index_filters}")
+        _logger.debug(f"extracted index filters: {index_filters}")
 
         # Gather all the filing filters
         filing_filters: Dict[str, str] = {}
@@ -184,7 +184,7 @@ class Options(NamedTuple):
                 value = getattr(args, name)
                 if value is not None:
                     filing_filters[name] = value
-        _logger.info(f"extracted filing filters: {filing_filters}")
+        _logger.debug(f"extracted filing filters: {filing_filters}")
 
         # Check for JSON files specifying filters
         if args.load_filters is not None:

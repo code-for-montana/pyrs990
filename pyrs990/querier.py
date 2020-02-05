@@ -49,7 +49,7 @@ class Querier:
             content = content[1:]
 
         byte_content = content.encode("utf-8")
-        _logger.info(f"hydrate querier: '{str(byte_content[:40])}'")
+        _logger.debug(f"hydrate querier: '{str(byte_content[:40])}'")
 
         tree = ElementTree.fromstring(byte_content)
 

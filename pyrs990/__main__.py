@@ -13,7 +13,8 @@ if __name__ == "__main__":
 
     # We do this kinda janky like without the Options instance
     # so that we can log inside the Options factory.
-    logger.setLevel(_log_levels[args.log_level])
+    if args.log_level != "none":
+        logger.setLevel(_log_levels[args.log_level])
 
     options = Options.from_args(args)
 

@@ -44,7 +44,7 @@ def run(options: Options):
 
     index = Index()
     for year in options.years:
-        _logger.info(f"applying year filter for {year}")
+        _logger.debug(f"applying year filter for {year}")
         typed_year = AnnualYear(int(year))
         index.add_annual_index(
             typed_year, get_annual_index(typed_year, annual_downloader,),
@@ -56,7 +56,7 @@ def run(options: Options):
     )
 
     if len(options.index_filters) > 0:
-        _logger.info(f"applying index filters: {options.index_filters}")
+        _logger.debug(f"applying index filters: {options.index_filters}")
         index.add_filter(filter_index_record(options.index_filters))
 
     filing_downloader = HTTPDownloader(
@@ -64,7 +64,7 @@ def run(options: Options):
     )
     result = Result(filing_downloader, index,)
     if len(options.filing_filters) > 0:
-        _logger.info(f"applying filing filters: {options.filing_filters}")
+        _logger.debug(f"applying filing filters: {options.filing_filters}")
         result = result.add_filter(filter_filings(options.filing_filters))
 
     formatter = options.formatter
@@ -74,14 +74,14 @@ def run(options: Options):
     # TODO: Formatter should get a chance to modify / format messages
 
     if options.dry_run:
-        _logger.info(f"performing dry-run")
+        _logger.debug(f"performing dry-run")
         print(_message_count(download_count, 0))
         return
 
     if not options.no_confirm and download_count > LIMIT_BEFORE_CONFIRM:
-        _logger.info(f"downloading {download_count} documents, confirming")
+        _logger.debug(f"downloading {download_count} documents, confirming")
         if not _confirm(download_count, 0, formatter):
-            _logger.info(f"user aborted")
+            _logger.debug(f"user aborted")
             # TODO: Use the formatter for this output
             print("Aborting")
             return
