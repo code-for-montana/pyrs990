@@ -50,10 +50,12 @@ def run(options: Options):
             typed_year, get_annual_index(typed_year, annual_downloader,),
         )
 
-    typed_region = BMFRegion("mt")
-    index.add_bmf_index(
-        typed_region, get_bmf_index(typed_region, bmf_downloader,),
-    )
+    for region in options.regions:
+        _logger.debug(f"applying region filter for {region}")
+        typed_region = BMFRegion(region)
+        index.add_bmf_index(
+            typed_region, get_bmf_index(typed_region, bmf_downloader,),
+        )
 
     if len(options.index_filters) > 0:
         _logger.debug(f"applying index filters: {options.index_filters}")

@@ -11,6 +11,13 @@ starts with a sterile environment.
 If you require some kind of input file, place it in the fixtures/
 directory under the top level directory and reference it like this:
 "fixtures/myfile.whatever" in command line arguments.
+
+Test cases we want to add:
+
+  - multiple years
+  - multiple regions
+  - filing filters
+  - json and csv format
 """
 
 import subprocess as sp

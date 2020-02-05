@@ -117,6 +117,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--regions",
+    type=str,
+    default="mt",
+    help="regions to search, comma-separated "
+    + "(two character state abbreviations, for most)",
+)
+
+parser.add_argument(
     "--years",
     type=str,
     default=":current:",
@@ -225,6 +233,12 @@ class Options(NamedTuple):
                 continue
             years.append(year_str)
 
+        # Choose our regions
+        regions: List[str] = []
+        regions_str = args.regions.split(",")
+        for region_str in regions_str:
+            regions.append(region_str)
+
         return Options(
             dry_run=args.dry_run,
             formatter=formatter,
@@ -236,6 +250,7 @@ class Options(NamedTuple):
             filing_filters=filing_filters,
             index_filters=index_filters,
             to_json=args.to_json,
+            regions=regions,
             years=years,
         )
 
@@ -252,6 +267,8 @@ class Options(NamedTuple):
     log_level_human: str
 
     no_confirm: bool
+
+    regions: Iterable[str]
 
     years: Iterable[str]
 
