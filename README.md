@@ -57,7 +57,7 @@ Note that this does not necessarily have anything
 to do with the filing year. An organization might, for example, file
 its 2016 990 in either 2017 or 2018 (or even later). There is a field,
 described below, called `tax_period` that reflects the filing period.
-In the future, we intend to further abstract this is that it is
+In the future, we intend to further abstract this so that it is
 easier to use.
 
 The annual index also contains a field called `object_id` that tells
