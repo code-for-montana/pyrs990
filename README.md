@@ -35,8 +35,8 @@ For now you need to clone the repo to use it. Eventually we'll package it.
   1. Install dependencies - `pipenv sync --dev`
   1. Make your changes
   1. If you need to add dependencies:
-    1. `pipenv install coolpkg`
-    1. `pipenv lock` (updates the lock file)
+      1. `pipenv install coolpkg`
+      1. `pipenv lock` (updates the lock file)
   1. Make a pull request
 
 ## About the Data
