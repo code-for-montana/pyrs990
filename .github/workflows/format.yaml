@@ -1,0 +1,16 @@
+name: format check
+on: [push]
+
+jobs:
+  format:
+    name: make format-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: pip install pipenv && python3 -m pipenv sync --dev
+      - name: run formatting check
+        run: make format-check

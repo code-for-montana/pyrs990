@@ -1,13 +1,13 @@
 import os
 from logging import getLogger
-from typing import Dict, Optional
+from typing import Container, Dict, Optional
 
 from .constants import DEFAULT_CACHE_PATH
 
 _logger = getLogger(__name__)
 
 
-class Cache:
+class Cache(Container):
     """
     A generic, abstract, cache to allow fast lookups for XML filings or
     CSV index files. This exists to keep us from having to download
@@ -42,6 +42,9 @@ class MemoryCache(Cache):
     """
 
     _dict: Dict[str, str]
+
+    def __contains__(self, __x: object) -> bool:
+        return __x in self._dict
 
     def __init__(self):
         self._dict = {}
@@ -81,6 +84,9 @@ class DirectoryCache(Cache):
     _extension: str
 
     _path: str
+
+    def __contains__(self, __x: object) -> bool:
+        pass
 
     def __init__(self, extension: str, path: str = DEFAULT_CACHE_PATH):
         if extension.startswith("."):

@@ -1,7 +1,7 @@
 import sys
 
 from . import app
-from ._options import Options, parser
+from ._options import Options, _log_levels, parser
 
 if __name__ == "__main__":
     import logging
@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
     # We do this kinda janky like without the Options instance
     # so that we can log inside the Options factory.
-    if args.verbose_logging:
-        logger.setLevel(logging.INFO)
+    if args.log_level != "none":
+        logger.setLevel(_log_levels[args.log_level])
 
     options = Options.from_args(args)
 

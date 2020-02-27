@@ -91,7 +91,7 @@ class Index:
                 for annual_record in annual_index.values():
                     ein = EIN(annual_record.ein)
                     if ein not in bmf_index:
-                        _logger.info(f"EIN not found in BMF index: {ein}")
+                        _logger.debug(f"EIN not found in BMF index: {ein}")
                         continue
 
                     bmf_record = bmf_index[ein]

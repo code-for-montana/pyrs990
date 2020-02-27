@@ -76,7 +76,6 @@ class HTTPDownloader(Downloader):
         _logger.info(f"fetching document '{document}'")
         content = self._cache.get(document)
         if content is None:
-            _logger.info("cache miss")
             url = self._url_template.format(document=document)
             _logger.info(f"downloading '{url}'")
             response = requests.get(url)
@@ -88,13 +87,14 @@ class HTTPDownloader(Downloader):
 
             # We're pretty loose with what we assume to be a successful
             # download here but that should be fine for now.
+            # TODO: Decide how to handle this exception
             if response.status_code < 200 or response.status_code > 299:
                 _logger.warning(f"download failed '{response.status_code}'")
                 raise DownloaderException(response.text)
 
             content = self._cache.put(document, response.text)
         else:
-            _logger.info("cache hit")
+            _logger.info("found document in cache")
 
         return StringIO(content)
 

@@ -17,3 +17,6 @@ format:
 	pipenv run isort --recursive --use-parentheses --trailing-comma -y -w 80
 	pipenv run autoflake -r --in-place --remove-unused-variables .
 	pipenv run black -t py38 -l 80 .
+
+format-check:
+	pipenv run black -t py38 -l 80 --check .

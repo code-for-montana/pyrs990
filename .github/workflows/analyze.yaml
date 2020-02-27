@@ -1,0 +1,16 @@
+name: analyze
+on: [push]
+
+jobs:
+  analyze:
+    name: make analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: pip install pipenv && python3 -m pipenv sync --dev
+      - name: run static type analysis
+        run: make analyze

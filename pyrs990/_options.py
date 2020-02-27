@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import dataclasses as dc
 import json
+import logging
 from argparse import ArgumentParser, Namespace
 from datetime import datetime
-from logging import getLogger
 from typing import Any, Dict, Iterable, List, Mapping, NamedTuple
 
 from .cache import Cache, DirectoryCache, MemoryCache
@@ -23,7 +23,16 @@ from .formatter import (
 )
 from .index import IndexRecord
 
-_logger = getLogger(__name__)
+_log_levels = {
+    "none": -100,
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warn": logging.WARN,
+    "error": logging.ERROR,
+    "fatal": logging.FATAL,
+}
+
+_logger = logging.getLogger(__name__)
 
 
 parser = ArgumentParser(
@@ -55,7 +64,7 @@ parser.add_argument(
     action="store_true",
     default=False,
     help="report how many documents would be "
-         + "downloaded / process and nothing else",
+    + "downloaded / process and nothing else",
 )
 
 parser.add_argument(
@@ -66,10 +75,11 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--verbose-logging",
-    action="store_true",
-    default=False,
-    help="provide much more verbose logging output, useful for debugging",
+    "--log-level",
+    type=str,
+    choices=_log_levels.keys(),
+    default="none",
+    help="set the log level, no logging is done by default",
 )
 
 parser.add_argument(
@@ -107,11 +117,19 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--regions",
+    type=str,
+    default="mt",
+    help="regions to search, comma-separated "
+    + "(two character state abbreviations, for most)",
+)
+
+parser.add_argument(
     "--years",
     type=str,
     default=":current:",
     help="years to search, comma-separated "
-         + "(':current:' is the most recent completed year)",
+    + "(':current:' is the most recent completed year)",
 )
 
 # -------------------- #
@@ -164,7 +182,7 @@ class Options(NamedTuple):
                 value = getattr(args, index_field_name)
                 if value is not None:
                     index_filters[index_field_name] = value
-        _logger.info(f"extracted index filters: {index_filters}")
+        _logger.debug(f"extracted index filters: {index_filters}")
 
         # Gather all the filing filters
         filing_filters: Dict[str, str] = {}
@@ -174,7 +192,7 @@ class Options(NamedTuple):
                 value = getattr(args, name)
                 if value is not None:
                     filing_filters[name] = value
-        _logger.info(f"extracted filing filters: {filing_filters}")
+        _logger.debug(f"extracted filing filters: {filing_filters}")
 
         # Check for JSON files specifying filters
         if args.load_filters is not None:
@@ -215,17 +233,25 @@ class Options(NamedTuple):
                 continue
             years.append(year_str)
 
+        # Choose our regions
+        regions: List[str] = []
+        regions_str = args.regions.split(",")
+        for region_str in regions_str:
+            regions.append(region_str)
+
         return Options(
             dry_run=args.dry_run,
             formatter=formatter,
             filing_cache=filing_cache,
             index_cache=index_cache,
+            log_level=_log_levels[args.log_level],
+            log_level_human=args.log_level,
             no_confirm=args.no_confirm,
             filing_filters=filing_filters,
             index_filters=index_filters,
             to_json=args.to_json,
+            regions=regions,
             years=years,
-            verbose_logging=args.verbose_logging,
         )
 
     dry_run: bool
@@ -236,7 +262,13 @@ class Options(NamedTuple):
 
     index_cache: Cache
 
+    log_level: int
+
+    log_level_human: str
+
     no_confirm: bool
+
+    regions: Iterable[str]
 
     years: Iterable[str]
 
@@ -245,5 +277,3 @@ class Options(NamedTuple):
     index_filters: Mapping[str, str] = {}
 
     to_json: bool = False
-
-    verbose_logging: bool = False
