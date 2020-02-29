@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyrs990"
-version = "0.1.2"
+version = "0.1.3"
 description = "A tool for fetching and filtering IRS 990 data."
 authors = [
     "George Lesica <george@lesica.com>",
@@ -22,7 +22,7 @@ classifiers = [
 ]
 
 [tool.poetry.scripts]
-pyrs990 = "pyrs990"
+pyrs990 = "pyrs990.entry_point:entry_point"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -35,6 +35,7 @@ black = "^19.10b0"
 pytest = "^5.3.5"
 mypy = "^0.761"
 isort = "^4.3.21"
+autoflake = "^1.3.1"
 
 [build-system]
 requires = ["poetry>=0.12"]
