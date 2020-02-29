@@ -1,10 +1,13 @@
 .PHONY: help
 help:
-	@echo analyze    - run the type checker
-	@echo check      - run tests
-	@echo check-fast - run non-network, non-subprocess tests
-	@echo clean      - delete build artifacts
-	@echo format     - format the code
+	@echo analyze       - run the type checker
+	@echo check         - run tests
+	@echo check-fast    - run non-network, non-subprocess tests
+	@echo clean         - delete build artifacts
+	@echo format        - format the code
+	@echo version-major - bump the major component of the version
+	@echo version-minor - bump the minor component of the version
+	@echo version-patch - bump the patch component of the version
 
 .PHONY: analyze
 analyze:
@@ -15,12 +18,16 @@ build:
 	poetry build
 
 .PHONY: check
-check: analyze
+check: analyze check-version
 	poetry run pytest
 
 .PHONY: check-fast
-check-fast: analyze
+check-fast: analyze check-version
 	poetry run pytest -m "not network and not subprocess"
+
+.PHONY: check-version
+check-version:
+	./tests/version.sh
 
 .PHONY: clean
 clean:
@@ -65,7 +72,7 @@ publish:
 
 .PHONY: store-version
 store-version:
-	$(echo $(FULL_VERSION) > pyrs990/version.txt)
+	$(shell poetry version | cut -d ' ' -f 2 > pyrs990/version.txt)
 
 .PHONY: version-major
 version-major:
