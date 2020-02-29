@@ -4,6 +4,8 @@ help:
 	@echo check         - run tests
 	@echo check-fast    - run non-network, non-subprocess tests
 	@echo clean         - delete build artifacts
+	@echo docker-build  - build / tag new container images
+	@echo docker-push   - push newly build containers to hub
 	@echo format        - format the code
 	@echo version-major - bump the major component of the version
 	@echo version-minor - bump the minor component of the version
@@ -42,19 +44,20 @@ MAJOR_VERSION := $(shell poetry version | cut -d ' ' -f 2 | cut -d '.' -f 1)
 
 .PHONY: docker-build
 docker-build:
-	docker build -t $(ORG_NAME)/$(IMAGE_NAME):$(FULL_VERSION) \
+	docker build --build-arg pyrs990_version=$(FULL_VERSION) \
+				 -t $(ORG_NAME)/$(IMAGE_NAME):$(FULL_VERSION) \
 				 -t $(ORG_NAME)/$(IMAGE_NAME):$(MINOR_VERSION) \
 				 -t $(ORG_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION) \
 				 -t $(ORG_NAME)/$(IMAGE_NAME):latest \
 				 .
-	docker run --mount src="${PWD}/data",target=/data,type=bind pyrs990:latest --version
+	docker run --mount src="${PWD}/data",target=/data,type=bind $(ORG_NAME)/$(IMAGE_NAME):latest --version
 
 .PHONY: docker-push
 docker-push:
-	docker push $(ORG_NAME)/$(IMAGE_NAME):$(FULL_VERSION) \
-				$(ORG_NAME)/$(IMAGE_NAME):$(MINOR_VERSION) \
-				$(ORG_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION) \
-				$(ORG_NAME)/$(IMAGE_NAME):latest
+	docker push $(ORG_NAME)/$(IMAGE_NAME):$(FULL_VERSION)
+	docker push $(ORG_NAME)/$(IMAGE_NAME):$(MINOR_VERSION)
+	docker push $(ORG_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION)
+	docker push $(ORG_NAME)/$(IMAGE_NAME):latest
 
 .PHONY: format
 format:

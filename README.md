@@ -15,7 +15,35 @@ bug you ran into).
 
 ### User
 
-For now you need to clone the repo to use it. Eventually we'll package it.
+#### Pip Install
+
+**Requires Python 3.8 or greater**
+
+You can install PyRS990 easily using `pip`: `pip install pyrs990` or
+`pip install --user pyrs990` if you're not in a virtual environment and
+don't want a global install.
+
+#### Docker
+
+Grab one of our docker images from here: <https://hub.docker.com/orgs/codeformontana>
+and run it sort of like this:
+
+```shell script
+docker run --mount src="${PWD}/data",target=/data,type=bind codeformontana/pyrs990:latest --help
+```
+
+Instead of `--help` at the end, add your own command line arguments to
+make it do whatever it is you want it to do. You can assume that `/data`
+is where any output should be stored for commands that require a path,
+files written there will then show up in your current directory outside
+the Docker container.
+
+#### Clone the Code
+
+**Requires Python 3.8 or greater**
+
+You can also clone the repo to use it, but this probably isn't the way
+to go for non-developers.
 
   1. Make sure you have Python 3.8 available
   1. Install [Poetry](https://python-poetry.org/) if you don't already have it
@@ -40,6 +68,42 @@ people, so that's great!
   1. If you need to add dependencies:
       1. `poetry add coolpkg`
   1. Make a pull request!
+
+## Development
+
+### Docker
+
+We ship Docker containers that are pre-configured to run the application. To build
+new container images use `make docker-build`. To push them to Docker Hub, use
+`make docker-push`. Be sure to do any necessary version updates (see below) before
+rebuilding the container images as they will be tagged using the latest version
+number.
+
+### Release Process
+
+```shell script
+# Assuming you've got the latest master and a clean working directory!
+# Bump the version
+make version-patch # or "major" or "minor"
+git commit -a 'Bump version for release'
+git push
+# Maybe wait for CI to pass, or do it manually below
+make analyze check-format check
+# Now we make all the things public
+make build publish
+make docker-build docker-push
+```
+
+### Versioning
+
+Increment the version using `make version-{major, minor, patch}` or update
+it manually in the `pyproject.toml` file. This is the source of truth, everything
+else will update automatically based on it. If you modify the version manually,
+be sure to run `make store-version` to update the code.
+
+Since PyRS990 is both an application and a library, we try to stick to semantic
+version rules. Increment the major for breaking changes, the minor for new features,
+and the patch for bug fixes and other "behind the scenes" changes.
 
 ## About the Data
 
