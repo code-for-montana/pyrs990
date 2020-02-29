@@ -1,4 +1,4 @@
-![PyRS990 Header](pyrs990_header.png)
+![PyRS990 Header](https://github.com/code-for-montana/pyrs990/raw/master/pyrs990_header.png)
 
 It's a pun. Get it?
 
