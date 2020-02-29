@@ -8,6 +8,9 @@ help:
 analyze:
 	poetry run mypy . tests/
 
+build:
+	poetry build
+
 check: analyze
 	poetry run pytest
 
@@ -25,3 +28,7 @@ format:
 
 format-check:
 	poetry run black -t py38 -l 80 --check .
+
+publish:
+	poetry publish
+
