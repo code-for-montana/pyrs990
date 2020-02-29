@@ -7,4 +7,5 @@ __pycache__/
 .DS_Store
 dist/
 pyrs990.egg-info/
+data/
 

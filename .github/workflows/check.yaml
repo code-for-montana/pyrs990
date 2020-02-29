@@ -11,6 +11,6 @@ jobs:
         with:
           python-version: 3.8
       - name: install dependencies
-        run: pip install pipenv && python3 -m pipenv sync --dev
+        run: pip install poetry && python3 -m poetry install
       - name: run unit and functional tests
         run: make check
