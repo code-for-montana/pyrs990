@@ -37,11 +37,11 @@ class Return(NamedTuple):
 def runit(*args: str) -> Return:
     """
     Run the command line tool with the provided command line arguments.
-    This takes care of running it through pipenv so that the tests can
+    This takes care of running it through poetry so that the tests can
     focus solely on parameter variations.
     """
     result = sp.run(
-        ["pipenv", "run", "python", "-m", PROGRAM_NAME] + list(args),
+        ["poetry", "run", "python", "-m", PROGRAM_NAME] + list(args),
         capture_output=True,
         encoding="utf-8",
         text=True,

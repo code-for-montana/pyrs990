@@ -5,4 +5,5 @@ __pycache__/
 .pyrs990-cache/
 *.ipynb_checkpoints/
 .DS_Store
+dist/
 

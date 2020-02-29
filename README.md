@@ -18,26 +18,28 @@ bug you ran into).
 For now you need to clone the repo to use it. Eventually we'll package it.
 
   1. Make sure you have Python 3.8 available
-  1. Install `pipenv` - `pip install --user pipenv`
+  1. Install [Poetry](https://python-poetry.org/) if you don't already have it
   1. Clone the whole repo, `cd` into the `pyrs990` directory
-  1. Install dependencies - `pipenv sync`
+  1. Install dependencies - `poetry install`
   1. Run it, some very simple examples are below:
-      1. `pipenv run python -m pyrs990 --zip 59801 --use-disk-cache`
+      1. `poetry run python -m pyrs990 --zip 59801 --use-disk-cache`
       1. ...more examples coming soon
   1. Run the commands again, notice the cache speedup
   1. The cache is set to `./.pyrs990-cache/`
 
 ### Developer
 
+This project uses [Poetry](https://python-poetry.org/) because it's pretty slick
+and does a lot of stuff automatically and the developers are not usually Python
+people, so that's great!
+
   1. Make sure you have Python 3.8 available
-  1. Install `pipenv` - `pip install --user pipenv`
+  1. Install [Poetry](https://python-poetry.org/) if you don't already have it
   1. Clone the whole repo, `cd` into the `pyrs990` directory
-  1. Install dependencies - `pipenv sync --dev`
-  1. Make your changes
+  1. Install dependencies - `poetry install`
   1. If you need to add dependencies:
-      1. `pipenv install coolpkg`
-      1. `pipenv lock` (updates the lock file)
-  1. Make a pull request
+      1. `poetry add coolpkg`
+  1. Make a pull request!
 
 ## About the Data
 
