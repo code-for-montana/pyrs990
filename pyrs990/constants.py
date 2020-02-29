@@ -14,7 +14,9 @@ A URL template that uses the AWS S3 bucket maintained by the IRS. For
 use with the `HTTPDownloader` to download index documents.
 """
 
-CURRENT_VERSION = "0.0.1"
+import importlib.resources as pkg_resources
+version = pkg_resources.read_text('pyrs990', 'version.txt')
+CURRENT_VERSION = version
 
 DEFAULT_CACHE_PATH = ".pyrs990-cache"
 
