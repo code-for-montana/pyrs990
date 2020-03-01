@@ -29,8 +29,9 @@ don't want a global install.
 
 #### Docker
 
-Grab one of our docker images from here: <https://hub.docker.com/orgs/codeformontana>
-and run it sort of like this:
+Grab one of our docker images from
+<https://hub.docker.com/repository/docker/codeformontana/pyrs990> and run it
+sort of like this:
 
 ```shell script
 docker run --mount src="${PWD}/data",target=/data,type=bind codeformontana/pyrs990:latest --help
