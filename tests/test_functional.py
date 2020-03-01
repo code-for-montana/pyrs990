@@ -55,7 +55,7 @@ def runit(*args: str) -> Return:
 def test_cli_version() -> None:
     ret = runit("--version")
     assert ret.status == 0
-    assert ret.stdout == f"{CURRENT_VERSION}\n"
+    assert ret.stdout == f"{CURRENT_VERSION}"
 
 
 @pytest.mark.network
