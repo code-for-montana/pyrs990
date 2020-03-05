@@ -25,6 +25,10 @@ class IndexRecord(NamedTuple):
     that both represent the same organization, as indicated by the EIN
     field. In all cases the two records here should have the same `ein`
     value.
+
+    TODO: EINs seem to be inconsistent, may want to use a heuristic
+    Maybe base it on the organization name + zip code or something?
+    But that would be kind of a pain to validate, so not sure.
     """
 
     annual_record: AnnualRecord

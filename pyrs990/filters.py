@@ -1,5 +1,5 @@
 import re
-from typing import Mapping
+from typing import List, Mapping, Pattern
 
 from .filing import Filing, FilingFilter
 from .index import IndexFilter, IndexRecord
@@ -13,16 +13,20 @@ class FieldNotFound(Exception):
 
 
 def filter_filings(filters: Mapping[str, str],) -> FilingFilter:
+    patterns: List[Pattern] = []
+    for field_name, filter_text in filters.items():
+        patterns.append(re.compile(filter_text, flags=re.IGNORECASE))
+
     def _filter(filing: Filing) -> bool:
         passed = True
-        for fieldName in filters:
-            filter_text = filters[fieldName]
-            if not hasattr(filing, fieldName):
-                raise FieldNotFound(fieldName)
-            value = getattr(filing, fieldName)
+        for i, f in enumerate(filters):
+            if not hasattr(filing, f):
+                raise FieldNotFound(f)
+            value = getattr(filing, f)
             if value is None:
                 return False
-            match = re.match(filter_text, str(value))
+            pattern = patterns[i]
+            match = pattern.search(str(value))
             if match is None:
                 passed = False
                 break
@@ -32,16 +36,20 @@ def filter_filings(filters: Mapping[str, str],) -> FilingFilter:
 
 
 def filter_index_record(filters: Mapping[str, str],) -> IndexFilter:
+    patterns: List[Pattern] = []
+    for field_name, filter_text in filters.items():
+        patterns.append(re.compile(filter_text, flags=re.IGNORECASE))
+
     def _filter(record: IndexRecord) -> bool:
         passed = True
-        for field_name in filters:
-            filter_text = filters[field_name]
-            if not record.has_field(field_name):
-                raise FieldNotFound(field_name)
-            value = record.get_field(field_name)
+        for i, f in enumerate(filters):
+            if not record.has_field(f):
+                raise FieldNotFound(f)
+            value = record.get_field(f)
             if value is None:
                 return False
-            match = re.match(filter_text, str(value))
+            pattern = patterns[i]
+            match = pattern.search(str(value))
             if match is None:
                 passed = False
                 break

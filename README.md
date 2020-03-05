@@ -55,7 +55,8 @@ to go for non-developers.
   1. Clone the whole repo, `cd` into the `pyrs990` directory
   1. Install dependencies - `poetry install`
   1. Run it, some very simple examples are below:
-      1. `poetry run python -m pyrs990 --zip 59801 --use-disk-cache`
+      1. `poetry run pyrs990 --zip 59801 --use-disk-cache`
+      1. `poetry run pyrs990 --load-filters examples/has-a-website.json --use-disk-cache`
       1. ...more examples coming soon
   1. Run the commands again, notice the cache speedup
   1. The cache is set to `./.pyrs990-cache/`
@@ -150,6 +151,57 @@ is a good idea to try to use as many index fields as you can to
 reduce the number of files you have to download.
 
 See the example queries for more information.
+
+### Index Fields
+
+The index fields available for filtering are listed below. Note that,
+in general, the BMF index may be a bit more reliable since it points
+directly at the filing data files and doesn't require joining on the
+EIN, which we haven't entirely figured out yet (there seem to be EIN
+values missing from one or the other index in some cases).
+
+**BMF Index:**
+
+  - EIN - used to join indices
+  - NAME
+  - ICO
+  - STREET
+  - CITY
+  - STATE
+  - ZIP
+  - GROUP
+  - SUBSECTION
+  - AFFILIATION
+  - CLASSIFICATION
+  - RULING
+  - DEDUCTIBILITY
+  - FOUNDATION
+  - ACTIVITY
+  - ORGANIZATION
+  - STATUS
+  - TAX_PERIOD
+  - ASSET_CD
+  - INCOME_CD
+  - FILING_REQ_CD
+  - PF_FILING_REQ_CD
+  - ACCT_PD
+  - ASSET_AMT
+  - INCOME_AMT
+  - REVENUE_AMT
+  - NTEE_CD
+  - SORT_NAME
+
+**Annual Index:**
+
+  - RETURN_ID
+  - FILING_TYPE
+  - EIN - used for joining indices
+  - TAX_PERIOD
+  - SUB_DATE
+  - TAXPAYER_NAME
+  - RETURN_TYPE
+  - DLN
+  - OBJECT_ID - points to filing data
 
 ### Sources
 

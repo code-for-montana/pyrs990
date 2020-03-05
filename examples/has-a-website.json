@@ -1,0 +1,8 @@
+{
+  "index": {
+    "zip": "59801"
+  },
+  "filing": {
+    "website_address": "^(?!N/A).*$"
+  }
+}
