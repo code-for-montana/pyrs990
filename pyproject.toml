@@ -30,7 +30,7 @@ requests = "^2.23.0"
 defusedxml = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
-ipython = "^7.13.0"
+ipython = "^8.10.0"
 black = "^19.10b0"
 pytest = "^5.3.5"
 mypy = "^0.761"
